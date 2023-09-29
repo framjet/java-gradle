@@ -1,0 +1,22 @@
+import java.util.concurrent.Callable
+
+ext.getFramJetProperty = { ExtensionAware project, String name, String defaultValue = null ->
+    def envName = "FRAMJET_" + name.replaceAll(".", "_").toUpperCase()
+
+    def envValue = System.getenv(envName)
+    if (envValue != null) {
+        return envValue
+    }
+
+    def propName = "framjet." + name
+    def value = project.ext.find(propName)
+
+    if (value == null) {
+        value = defaultValue
+    }
+
+    if (value == null) {
+        throw new GradleException("Property \"$propName\" is not defined")
+    }
+    return value
+} as Callable<String>

@@ -1,0 +1,28 @@
+apply from: "https://raw.githubusercontent.com/framjet/java-gradle/main/framjet-utils.gradle"
+
+rootProject.dependencies {
+    repositories {
+        maven {
+            url getFramJetProperty(rootProject, "repo.url", "https://maven.pkg.github.com/framjet/java-gradle")
+            credentials {
+                username = getFramJetProperty(rootProject, "repo.username")
+                password = getFramJetProperty(rootProject, "repo.password")
+            }
+        }
+    }
+}
+
+allprojects { project ->
+    dependencies {
+        repositories {
+            maven {
+                url getFramJetProperty(project, "repo.url", "https://maven.pkg.github.com/framjet/java-gradle")
+                credentials {
+                    username = getFramJetProperty(project, "repo.username")
+                    password = getFramJetProperty(project, "repo.password")
+                }
+            }
+        }
+    }
+}
+

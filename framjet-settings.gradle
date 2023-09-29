@@ -1,0 +1,23 @@
+apply from: "https://raw.githubusercontent.com/framjet/java-gradle/main/framjet-utils.gradle"
+
+settings.pluginManagement {
+    repositories {
+        maven {
+            url getFramJetProperty(settings, "repo.url", "https://maven.pkg.github.com/framjet/java-gradle")
+            credentials {
+                username = getFramJetProperty(settings, "repo.username")
+                password = getFramJetProperty(settings, "repo.password")
+            }
+        }
+        gradlePluginPortal()
+    }
+
+    resolutionStrategy {
+        eachPlugin {
+            println("Plugin: ${requested.id.namespace}:${requested.id.name}:${requested.version}")
+            if (requested.id.namespace.startsWith("org.framjet")) {
+                useModule("${requested.id.namespace}:${requested.id.name}:${requested.version}")
+            }
+        }
+    }
+}
